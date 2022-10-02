@@ -17,16 +17,11 @@ const HomeContainer: NextPage = () => {
 
 export default HomeContainer;
 
-interface HomePageProps {
-  session: Session | null;
-  status: 'loading' | 'authenticated' | 'unauthenticated';
-}
-
 const HomePage: FC<HomePageProps> = (props) => (
   <>
     <Background />
     {!props.session && (
-      <div>{props.session && <Link href="/api/auth/signin">Sign in</Link>}</div>
+      <div>{<Link href="/api/auth/signin">Sign in</Link>}</div>
     )}
 
     <div
@@ -39,3 +34,8 @@ const HomePage: FC<HomePageProps> = (props) => (
     </div>
   </>
 );
+
+interface HomePageProps {
+  session: Session | null;
+  status: 'loading' | 'authenticated' | 'unauthenticated';
+}

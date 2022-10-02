@@ -27,7 +27,21 @@ export const authOptions: NextAuthOptions = {
     SpotifyProvider({
       clientId: env.SPOTIFY_CLIENT_ID,
       clientSecret: env.SPOTIFY_CLIENT_SECRET,
-      profile(profile, _) {
+
+      async profile(profile, _) {
+        //refresh the access token in the db each time you login
+        const updateUser = await prisma.account.update({
+          where: {
+            provider_providerAccountId: {
+              providerAccountId: String(profile.id),
+              provider: 'spotify',
+            },
+          },
+          data: {
+            access_token: _.access_token,
+          },
+        });
+
         return {
           id: String(profile.id),
           name: profile?.display_name,
@@ -36,7 +50,7 @@ export const authOptions: NextAuthOptions = {
         };
       },
     }),
-    // ...add more providers here
+    //add more providers here...
   ],
   adapter: PrismaAdapter(prisma),
 };

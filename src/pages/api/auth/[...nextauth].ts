@@ -3,8 +3,7 @@ import { PrismaClient } from '@prisma/client';
 import NextAuth, { type NextAuthOptions } from 'next-auth';
 import SpotifyProvider from 'next-auth/providers/spotify';
 import { env } from '../../../env/server.mjs';
-
-const prisma = new PrismaClient();
+import prisma from '../prisma/prisma-client';
 
 export const authOptions: NextAuthOptions = {
   // Include user.id on session

@@ -33,12 +33,8 @@ export default async function handler(req, res) {
       authOptions
     ).then((r) => r.json());
 
-    console.log(token);
-
     res.status(200).json(token);
   } catch (error) {
-    console.log(error);
-
     res.status(500).json(error);
   }
 }

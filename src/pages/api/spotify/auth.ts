@@ -8,7 +8,7 @@ export default async function handler(req, res) {
   const redirect_uri = env.SPOTIFY_REDIRECT_URL;
 
   const data = new URLSearchParams();
-  data.append('grant_type', 'authorization_code');
+  data.append('grant_type', 'client_credentials');
   data.append('redirect_uri', redirect_uri);
   data.append('code', '');
 
@@ -18,22 +18,21 @@ export default async function handler(req, res) {
     headers: {
       Authorization:
         'Basic ' +
-        Buffer.from(client_id + ':' + client_secret, 'base64').toString(
-          'base64'
-        ),
+        Buffer.from(client_id + ':' + client_secret).toString('base64'),
       'Content-Type': 'application/x-www-form-urlencoded',
     },
     body: data,
+
     json: true,
   };
 
   try {
-    const token = await fetch(
+    const { access_token } = await fetch(
       'https://accounts.spotify.com/api/token',
       authOptions
     ).then((r) => r.json());
 
-    res.status(200).json(token);
+    res.status(200).json({ access_token });
   } catch (error) {
     res.status(500).json(error);
   }

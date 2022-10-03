@@ -8,7 +8,7 @@ import prisma from '../prisma/prisma-client';
 export const authOptions: NextAuthOptions = {
   // Include user.id on session
   callbacks: {
-    session({ session, user, token }) {
+    session({ session, token }) {
       if (session.user && token) {
         session.user.id = String(token.id);
       }
@@ -18,6 +18,7 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.id = user.id;
       }
+
       return token;
     },
   },
@@ -40,6 +41,7 @@ export const authOptions: NextAuthOptions = {
             access_token: _.access_token,
           },
         });
+        console.log(_);
 
         return {
           id: String(profile.id),

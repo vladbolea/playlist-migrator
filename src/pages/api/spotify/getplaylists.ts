@@ -15,19 +15,17 @@ export default async function handler(
 
   try {
     const playlists = await fetch(
-      `https://api.spotify.com/v1/users/${userId}/playlists?limit=50`,
+      `https://api.spotify.com/v1/users/${userId}/playlists`,
       {
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${user?.access_token}`,
+          Authorization: `Bearer `,
         },
         method: 'GET',
       }
     ).then((r) => r.json());
 
-    console.log(`length ${playlists.items.length}`);
-
-    res.status(200).json(playlists.items);
+    res.status(200).json(playlists);
   } catch (error) {
     res.status(500).json(error);
   }

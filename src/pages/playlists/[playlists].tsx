@@ -5,12 +5,14 @@ import { env } from '../../env/client.mjs';
 const Playlists: FC<InferGetServerSidePropsType<typeof getServerSideProps>> = (
   props
 ) => {
+  console.log(JSON.stringify(props?.playlists));
+
   return (
     <>
       <div className="">{props.playlists.length}</div>
       <div className="">
-        {props.playlists &&
-          props.playlists.map((item) => <p key={item.id}>{item.name}</p>)}
+        {/* {props.playlists &&
+          props.playlists?.items.map((item) => <p key={item.id}>{item.name}</p>)} */}
       </div>
     </>
   );

@@ -1,59 +1,71 @@
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
-import { PrismaClient } from '@prisma/client';
-import NextAuth, { type NextAuthOptions } from 'next-auth';
+import NextAuth, { NextAuthOptions } from 'next-auth';
+import { JWT } from 'next-auth/jwt/types.js';
 import SpotifyProvider from 'next-auth/providers/spotify';
 import { env } from '../../../env/server.mjs';
+import spotifyApi from '../../../utils/spotify';
 import prisma from '../prisma/prisma-client';
 
-export const authOptions: NextAuthOptions = {
-  // Include user.id on session
-  callbacks: {
-    session({ session, token }) {
-      if (session.user && token) {
-        session.user.id = String(token.id);
-      }
-      return session;
-    },
-    jwt({ token, user }) {
-      if (user) {
-        token.id = user.id;
-      }
+const refreshAccessToken = async (token: JWT) => {
+  try {
+    spotifyApi.setAccessToken(token.accessToken as string);
+    spotifyApi.setRefreshToken(token.refreshToken as string);
 
-      return token;
-    },
-  },
-  // Configure one or more authentication providers
+    const { body } = await spotifyApi.refreshAccessToken();
+
+    token.accessToken = body.access_token;
+    token.refreshToken = body.refresh_token ?? (token.refreshToken as string);
+    token.accessTokenExpires = body.expires_in * 1000;
+    return token;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const authOptions: NextAuthOptions = {
   providers: [
     SpotifyProvider({
       clientId: env.SPOTIFY_CLIENT_ID,
       clientSecret: env.SPOTIFY_CLIENT_SECRET,
-
-      async profile(profile, _) {
-        //refresh the access token in the db each time you login
-        const updateUser = await prisma.account.update({
-          where: {
-            provider_providerAccountId: {
-              providerAccountId: String(profile.id),
-              provider: 'spotify',
-            },
-          },
-          data: {
-            access_token: _.access_token,
-          },
-        });
-        console.log(_);
-
-        return {
-          id: String(profile.id),
-          name: profile?.display_name,
-          email: profile?.email,
-          image: profile.images?.[0].url,
-        };
-      },
     }),
     //add more providers here...
   ],
+
+  callbacks: {
+    async jwt({ token, account }): Promise<JWT> {
+      if (account) {
+        token.accessToken = account?.access_token;
+        token.refreshToken = account?.refresh_token;
+        token.username = account?.providerAccountId;
+        token.accessTokenExpires = account?.expires_at
+          ? account?.expires_at * 1000
+          : null;
+
+        return token;
+      }
+
+      if (Date.now() < (token.accessTokenExpires as number)) {
+        return token;
+      }
+
+      // If access token has expired, try to update it
+      return (await refreshAccessToken(token)) as JWT;
+    },
+
+    async session({ session, token }) {
+      session.accessToken = token?.accessToken;
+      session.refreshToken = token?.refreshToken;
+      session.username = token?.username;
+
+      return session;
+    },
+  },
+  secret: env.NEXTAUTH_SECRET,
   adapter: PrismaAdapter(prisma),
+  session: {
+    strategy: 'jwt',
+  },
+  // debug: true,
 };
 
 export default NextAuth(authOptions);

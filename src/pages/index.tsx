@@ -30,7 +30,7 @@ const HomePage: FC<HomePageProps> = (props) => (
         signOut();
       }}
     >
-      {props.status}
+      {JSON.stringify(props.session)}
     </div>
   </>
 );

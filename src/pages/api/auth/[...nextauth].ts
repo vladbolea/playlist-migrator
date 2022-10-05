@@ -2,6 +2,8 @@ import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import NextAuth, { NextAuthOptions } from 'next-auth';
 import { JWT } from 'next-auth/jwt/types.js';
 import SpotifyProvider from 'next-auth/providers/spotify';
+import GoogleProvider from 'next-auth/providers/google';
+
 import { env } from '../../../env/server.mjs';
 import spotifyApi from '../../../utils/spotify';
 import prisma from '../prisma/prisma-client';
@@ -25,8 +27,8 @@ const refreshAccessToken = async (token: JWT) => {
 export const authOptions: NextAuthOptions = {
   providers: [
     SpotifyProvider({
-      clientId: env.SPOTIFY_CLIENT_ID,
-      clientSecret: env.SPOTIFY_CLIENT_SECRET,
+      clientId: env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID,
+      clientSecret: env.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET,
     }),
     //add more providers here...
   ],

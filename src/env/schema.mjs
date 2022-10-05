@@ -9,8 +9,6 @@ export const serverSchema = z.object({
   NODE_ENV: z.enum(['development', 'test', 'production']),
   NEXTAUTH_SECRET: z.string(),
   NEXTAUTH_URL: z.string().url(),
-  SPOTIFY_CLIENT_ID: z.string(),
-  SPOTIFY_CLIENT_SECRET: z.string(),
   SPOTIFY_REDIRECT_URL: z.string(),
 });
 
@@ -20,6 +18,8 @@ export const serverSchema = z.object({
  * To expose them to the client, prefix them with `NEXT_PUBLIC_`.
  */
 export const clientSchema = z.object({
+  NEXT_PUBLIC_SPOTIFY_CLIENT_ID: z.string(),
+  NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET: z.string(),
   NEXT_PUBLIC_BASE_URL: z.string(),
 });
 
@@ -31,4 +31,7 @@ export const clientSchema = z.object({
  */
 export const clientEnv = {
   NEXT_PUBLIC_BASE_URL: process.env.NEXT_PUBLIC_BASE_URL,
+  NEXT_PUBLIC_SPOTIFY_CLIENT_ID: process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID,
+  NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET:
+    process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET,
 };

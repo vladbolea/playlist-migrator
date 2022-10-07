@@ -21,6 +21,19 @@ export default defineNextConfig({
     defaultLocale: 'en',
   },
   images: {
-    domains: ['media.geeksforgeeks.org'],
+    domains: [
+      'blend-playlist-covers.spotifycdn.com',
+      'mosaic.scdn.co',
+      'lineup-images.scdn.co',
+      'i.scdn.co',
+      't.scdn.co',
+      'newjams-images.scdn.co',
+      'dailymix-images.scdn.co',
+      'seed-mix-image.spotifycdn.com',
+      'charts-images.scdn.co',
+      'daily-mix.scdn.co',
+      'mixed-media-images.spotifycdn.com',
+      'seeded-session-images.scdn.co',
+    ],
   },
 });

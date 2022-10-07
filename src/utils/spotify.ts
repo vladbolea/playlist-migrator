@@ -5,7 +5,6 @@ import SpotifyWebApi from 'spotify-web-api-node';
 import { env } from '../env/server.mjs';
 
 const scopes = [
-  'user-read-email',
   'playlist-read-private',
   'playlist-read-collaborative',
   'user-read-private',

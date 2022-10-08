@@ -1,15 +1,13 @@
 import { FC, useState } from 'react';
 import { signOut } from 'next-auth/react';
-import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Loader from '../static/icons/loader.svg';
 
 const Profile: FC = () => {
-  const router = useRouter();
   const [loading, setLoading] = useState(false);
 
   return (
-    <div className="grid h-full w-full place-content-center">
+    <div className="grid h-full min-h-screen w-full place-content-center bg-black">
       <div>
         <p>Profile</p>
         <button

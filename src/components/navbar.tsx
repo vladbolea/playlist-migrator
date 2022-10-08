@@ -10,7 +10,7 @@ export const Navbar: FC = () => {
 
   return (
     <>
-      <div className="flex h-20  items-center justify-around bg-black">
+      <div className="sticky top-0 z-50 flex h-20 w-full items-center justify-around bg-[#000000b6] backdrop-blur-xl">
         <div className="hover:cursor-pointer">
           <Link href={'/'}>
             <p className="text-xl text-white">

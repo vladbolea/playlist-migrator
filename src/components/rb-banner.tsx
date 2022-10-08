@@ -5,19 +5,21 @@ import HeartIcon from '../static/icons/heart.svg';
 
 const RandBBanner: FC = () => {
   return (
-    <div className="relative flex h-[500px] w-[950px] justify-between overflow-hidden rounded-[35px] bg-[#E86239]">
-      <div className="ml-20 w-[400px]">
-        <div className="mt-28">
+    <div className="relative flex h-72 w-[90vw] items-center justify-between overflow-hidden rounded-3xl bg-[#E86239] md:h-[500px] md:w-[90%x] md:max-w-[950px] md:rounded-[35px]">
+      <div className="z-10 m-5 w-full md:ml-20 md:w-[400px]">
+        <div className="md:mt-18 mt-5">
           <p className="text-sm font-semibold text-white">CURATED PLAYLIST</p>
         </div>
-        <div className="mt-12">
-          <p className="text-5xl font-bold text-white">R&B Hits</p>
-          <p className="mt-5 text-gray-200">
+        <div className="mt-5 md:mt-12">
+          <p className="text-xl font-bold text-white md:text-5xl">R&B Hits</p>
+          <p className="text-sm text-gray-200 md:mt-5 md:text-base">
             Hot Shot, Confessions, Beyonce, Usher
           </p>
-          <p className="text-gray-200">The Dream, The Weeknd, 6lack...</p>
+          <p className="text-sm text-gray-200 md:text-base">
+            The Dream, The Weeknd, 6lack...
+          </p>
         </div>
-        <div className="mt-12 inline-block h-[30px] w-[30px] rounded-md bg-[#ffffff79] p-[5px]">
+        <div className="rounded-bg-[#ffffff79] mt-5 inline-block h-[30px] w-[30px] p-[5px]">
           <Image
             className=""
             src={HeartIcon}
@@ -28,13 +30,17 @@ const RandBBanner: FC = () => {
         </div>
       </div>
 
-      <div className="relative bottom-[-70px] aspect-[10/67] w-[800px]">
-        <Image
-          src={BlindingLights}
-          alt="blinding lights"
-          layout={'fill'}
-          objectFit={'contain'}
-        />
+      <div className="absolute right-[-180px] bottom-[-10px]  inline-block">
+        <div className="relative hidden aspect-[10/6.7]  w-[700px] md:block">
+          <Image
+            className="absolute "
+            src={BlindingLights}
+            alt="blinding lights"
+            layout={'fill'}
+            objectFit={'contain'}
+            priority={true}
+          />
+        </div>
       </div>
     </div>
   );

@@ -3,6 +3,7 @@ import { FC, useState } from 'react';
 import { SongItem } from '../interfaces/song';
 
 import DenyIcon from '../static/icons/deny.svg';
+import AddIcon from '../static/icons/add.svg';
 
 const Song = ({
   info,
@@ -42,7 +43,7 @@ const Song = ({
           className="relative right-[15px] aspect-square h-8 hover:cursor-pointer"
         >
           <Image
-            src={DenyIcon}
+            src={info?.removed ? AddIcon : DenyIcon}
             alt="Remove song"
             loading="eager"
             layout="fill"
@@ -63,7 +64,7 @@ const SongSkeleton: FC = () => {
       {array.map((item, index) => (
         <div
           key={index}
-          className="md:fw-full mx-auto mt-5 flex h-14 animate-pulse items-center overflow-hidden rounded-lg bg-[#1c1c1c]"
+          className="md:fw-full relative mx-auto mt-5 flex h-20 animate-pulse items-center justify-between overflow-hidden rounded-lg bg-[#1c1c1c]"
         ></div>
       ))}
     </>

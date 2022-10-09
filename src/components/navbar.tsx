@@ -1,12 +1,16 @@
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 
 import Loader from '../static/icons/loader.svg';
 
 export const Navbar: FC = () => {
   const { data: session, status } = useSession();
+
+  useEffect(() => {
+    console.log(session);
+  }, [session]);
 
   return (
     <>

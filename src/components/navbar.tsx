@@ -8,10 +8,6 @@ import Loader from '../static/icons/loader.svg';
 export const Navbar: FC = () => {
   const { data: session, status } = useSession();
 
-  useEffect(() => {
-    console.log(session);
-  }, [session]);
-
   return (
     <>
       <div className="sticky top-0 z-50 flex h-20 w-full items-center justify-around bg-[#000000b6] backdrop-blur-xl">

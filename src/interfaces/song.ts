@@ -8,7 +8,8 @@ export default interface SongApiResponse {
   total: number;
 }
 
-interface SongItem {
+export interface SongItem {
+  removed?: boolean;
   added_at: Date;
   added_by: {
     external_urls: {

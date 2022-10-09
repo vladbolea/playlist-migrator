@@ -7,8 +7,6 @@ const songs = async (req: NextApiRequest, res: NextApiResponse) => {
   const { authorization } = req.headers;
   const { playlistId } = req.query;
 
-  console.log('playlistId', playlistId);
-
   switch (method) {
     case 'GET':
       try {

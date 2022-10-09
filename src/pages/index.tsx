@@ -1,5 +1,6 @@
 import type { NextPage } from 'next';
 import { useSession } from 'next-auth/react';
+import { useEffect } from 'react';
 import useSWR from 'swr';
 import Featured, { FeaturedSkeleton } from '../components/featured';
 import RandBBanner from '../components/rb-banner';
@@ -15,6 +16,10 @@ const HomeContainer: NextPage = () => {
     fetcher
   );
 
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
+
   return (
     <div className="h-full min-h-screen w-full bg-black pb-14">
       <div className="grid place-content-center md:min-w-full">
@@ -26,6 +31,7 @@ const HomeContainer: NextPage = () => {
           {data ? (
             data?.playlists?.items?.map((item) => (
               <Featured
+                id={item?.id}
                 key={item?.id}
                 name={item?.name}
                 image={item?.images[0]}

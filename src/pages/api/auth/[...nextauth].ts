@@ -2,7 +2,6 @@ import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import NextAuth, { NextAuthOptions } from 'next-auth';
 import { JWT } from 'next-auth/jwt/types.js';
 import SpotifyProvider from 'next-auth/providers/spotify';
-import GoogleProvider from 'next-auth/providers/google';
 
 import { env } from '../../../env/server.mjs';
 import spotifyApi from '../../../utils/spotify';

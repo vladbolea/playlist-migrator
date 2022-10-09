@@ -9,9 +9,9 @@ const ExportButton: FC<{ tracksCount: number; handleExport: () => void }> = ({
       <button
         onClick={handleExport}
         disabled={tracksCount === 0}
-        className="fixed right-10 bottom-10 h-16 w-48 rounded-xl bg-green-500 text-lg font-bold transition-all hover:rounded-3xl hover:bg-green-400 disabled:bg-slate-600"
+        className="fixed right-10 bottom-10 h-16 w-[290px] rounded-xl bg-green-500 text-lg font-bold transition-all hover:rounded-3xl hover:bg-green-400 disabled:bg-slate-600"
       >
-        Export Playlists
+        Export Playlists ({tracksCount} tracks)
       </button>
     </>
   );

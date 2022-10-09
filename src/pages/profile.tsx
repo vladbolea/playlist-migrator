@@ -10,6 +10,9 @@ const Profile: FC = () => {
     <div className="grid h-full min-h-screen w-full place-content-center bg-black">
       <div>
         <p>Profile</p>
+        <button className="my-5 grid h-11 w-[260px] place-content-center rounded-md bg-red-500 px-5 py-2 font-bold transition-all hover:bg-red-400">
+          Connect with YoutTube
+        </button>
         <button
           onClick={() => {
             setLoading(true);

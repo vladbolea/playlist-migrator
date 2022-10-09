@@ -18,9 +18,9 @@ const Song = ({
           opacity: info?.removed === true ? 0.3 : 1,
           transition: 'opacity 0.1s ease-in-out',
         }}
-        className="md:fw-full relative mx-auto mt-5 flex h-14 items-center justify-between overflow-hidden rounded-lg bg-[#1c1c1c] hover:bg-[#2a2a2a] "
+        className="md:fw-full relative mx-auto mt-5 flex h-20 items-center justify-between overflow-hidden rounded-lg bg-[#1c1c1c] hover:bg-[#2a2a2a] "
       >
-        <div className="relative aspect-square h-14">
+        <div className="relative aspect-square h-20">
           <Image
             src={info?.track?.album?.images?.[0]?.url}
             alt={info?.track?.album?.name}
@@ -29,7 +29,7 @@ const Song = ({
             objectFit="cover"
           />
         </div>
-        <div className="absolute left-[60px] ml-5">
+        <div className="absolute left-[60px] ml-10">
           <h2 className="font-semibold text-white">{info?.track.name}</h2>
           <h3 className="text-sm text-gray-400">
             {info?.track.artists[0].name}

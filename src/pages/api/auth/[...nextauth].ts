@@ -33,10 +33,10 @@ export const authOptions: NextAuthOptions = {
         'https://accounts.spotify.com/authorize?scope=playlist-read-private',
     }),
 
-    GoogleProvider({
-      clientId: env.GOOGLE_CLIENT_ID,
-      clientSecret: env.GOOGLE_CLIENT_SECRET,
-    }),
+    // GoogleProvider({
+    //   clientId: env.GOOGLE_CLIENT_ID,
+    //   clientSecret: env.GOOGLE_CLIENT_SECRET,
+    // }),
 
     //add more providers here...
   ],

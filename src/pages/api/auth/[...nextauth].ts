@@ -36,8 +36,8 @@ export const authOptions: NextAuthOptions = {
   ],
 
   callbacks: {
-    async jwt({ token, account }): Promise<JWT> {
-      if (account) {
+    async jwt({ token, account, user }): Promise<JWT> {
+      if (account && user) {
         token.accessToken = account?.access_token;
         token.refreshToken = account?.refresh_token;
         token.username = account?.providerAccountId;

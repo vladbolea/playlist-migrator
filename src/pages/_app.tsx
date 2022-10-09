@@ -16,13 +16,13 @@ const MyApp: AppType<{ session: Session | null }> = ({
   pageProps: { session, ...pageProps },
 }) => {
   return (
-    <SessionProvider session={session}>
-      <SWRConfig value={{
-        
-      }}>
-        <Navbar />
-        <Component {...pageProps} />
-      </SWRConfig>
+    <SessionProvider
+      session={session}
+      refetchOnWindowFocus={false}
+      refetchInterval={3600}
+    >
+      <Navbar />
+      <Component {...pageProps} />
     </SessionProvider>
   );
 };

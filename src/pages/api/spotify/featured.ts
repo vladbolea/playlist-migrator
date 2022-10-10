@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import PlaylistApiResponse from '../../../interfaces/playlist';
 import { getServerAuthSession } from '../../../server/common/get-server-auth-session';
+import { prisma } from '../../../server/db/client';
 
 const playlists = async (req: NextApiRequest, res: NextApiResponse) => {
   const { method } = req;

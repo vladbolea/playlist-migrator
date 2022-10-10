@@ -19,7 +19,7 @@ const Song = ({
           opacity: info?.removed === true ? 0.3 : 1,
           transition: 'opacity 0.1s ease-in-out',
         }}
-        className="md:fw-full relative mx-auto mt-5 flex h-20 items-center justify-between overflow-hidden rounded-lg bg-[#1c1c1c] hover:bg-[#2a2a2a] "
+        className="relative mx-auto mt-5 flex h-20 w-[95%] items-center justify-between overflow-hidden rounded-lg bg-[#1c1c1c] hover:bg-[#2a2a2a] md:w-full md:min-w-[600px] "
       >
         <div className="relative aspect-square h-20">
           <Image
@@ -31,11 +31,19 @@ const Song = ({
           />
         </div>
         <div className="absolute left-[60px] ml-10">
-          <h2 className="font-semibold text-white">{info?.track.name}</h2>
+          <h2 className="max-w-[240px] overflow-hidden text-ellipsis whitespace-nowrap font-semibold text-white">
+            {info?.track.name}
+          </h2>
           <h3 className="text-sm text-gray-400">
             {info?.track.artists[0].name}
           </h3>
         </div>
+        <div className="">
+          <h3 className="relative right-[-100px] max-w-[220px] overflow-hidden text-ellipsis whitespace-nowrap text-right text-sm text-gray-400">
+            {info?.track?.album?.name}
+          </h3>
+        </div>
+
         <div
           onClick={() => {
             toggleTrack(info?.track?.id);

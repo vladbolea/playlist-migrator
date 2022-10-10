@@ -4,8 +4,9 @@ import { FC, useEffect, useMemo, useState } from 'react';
 import useSWR from 'swr';
 import ExportButton from '../../components/export-button';
 import Song, { SongSkeleton } from '../../components/song';
+import TrackSearch from '../../components/track-search';
 
-import SongApiResponse from '../../interfaces/song.js';
+import SongApiResponse, { SongItem } from '../../interfaces/song.js';
 import fetcher from '../../utils/fetcher';
 
 const Playlists: FC<InferGetServerSidePropsType<typeof getServerSideProps>> = (
@@ -23,10 +24,11 @@ const Playlists: FC<InferGetServerSidePropsType<typeof getServerSideProps>> = (
   const [tracks, setTracks] = useState(data?.items);
   const [tracksCount, setTracksCount] = useState(0);
 
+  const [search, setSearch] = useState('');
+
   useEffect(() => {
     if (data) {
       setTracks(data?.items);
-      console.log(data?.items?.length);
     }
   }, [data]);
 
@@ -63,6 +65,43 @@ const Playlists: FC<InferGetServerSidePropsType<typeof getServerSideProps>> = (
     console.log(tracksExported);
   };
 
+  useMemo(() => {
+    if (search === '' || search === ' ') setTracks(data?.items);
+    else {
+      const filteredValues = data?.items?.filter((track) => {
+        if (
+          track?.track?.name
+            .trim()
+            .toLowerCase()
+            .includes(search.trim().toLowerCase())
+        )
+          return true;
+
+        if (
+          track?.track?.artists[0].name
+            .trim()
+            .toLocaleLowerCase()
+            .trim()
+            .toLowerCase()
+            .includes(search.trim().toLowerCase())
+        )
+          return true;
+
+        if (
+          track?.track?.album?.name
+            .trim()
+            .toLocaleLowerCase()
+            .trim()
+            .toLowerCase()
+            .includes(search.trim().toLowerCase())
+        )
+          return true;
+      });
+
+      setTracks(filteredValues);
+    }
+  }, [search, data?.items]);
+
   return (
     <>
       <div className="w-full">
@@ -70,8 +109,11 @@ const Playlists: FC<InferGetServerSidePropsType<typeof getServerSideProps>> = (
           Select the tracks you want to import into your youtube account
         </h1>
       </div>
-      <div className="mx-auto md:w-5/12">
-        {tracks ? (
+      <div className="mx-auto mb-10 w-[95%] md:w-8/12">
+        <TrackSearch search={search} setSearch={setSearch} />
+      </div>
+      <div className="mx-auto mt-10 md:w-2/3 md:max-w-[760px]">
+        {tracks !== undefined ? (
           tracks?.map((song) => (
             <Song key={song.track.id} info={song} toggleTrack={toggleTrack} />
           ))

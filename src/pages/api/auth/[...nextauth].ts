@@ -40,8 +40,8 @@ const scopes = [
   'playlist-read-private',
   'user-read-private',
   'user-read-email',
+  'playlist-modify-public',
   // 'user-read-playback-position',
-  // 'playlist-modify-public',
   // 'playlist-modify-private',
   // 'playlist-read-public',
   // 'playlist-read-private',
@@ -81,6 +81,8 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, account, user }): Promise<JWT> {
       if (account && user) {
         await saveUserProfile(account.access_token as string);
+
+        console.log(`https://accounts.spotify.com/authorize?scope=${scopes}`);
 
         token.accessToken = account?.access_token;
         token.refreshToken = account?.refresh_token;

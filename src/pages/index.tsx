@@ -30,18 +30,16 @@ const HomeContainer: NextPage = () => {
           <RandBBanner />
         </div>
         <div className="mx-auto grid w-[95%] grid-cols-2 justify-between gap-[5%] md:w-[85%x] md:max-w-[850px] md:grid-cols-4">
-          {data ? (
-            data?.playlists?.items?.map((item) => (
-              <Featured
-                id={item?.id}
-                key={item?.id}
-                name={item?.name}
-                image={item?.images[0]}
-              />
-            ))
-          ) : (
-            <FeaturedSkeleton />
-          )}
+          {data
+            ? data?.playlists?.items?.map((item) => (
+                <Featured
+                  id={item?.id}
+                  key={item?.id}
+                  name={item?.name}
+                  image={item?.images[0]}
+                />
+              ))
+            : session && <FeaturedSkeleton />}
         </div>
       </div>
     </div>

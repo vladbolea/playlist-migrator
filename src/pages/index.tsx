@@ -26,8 +26,10 @@ const HomeContainer: NextPage = () => {
         <h1 className="m-10 text-center text-3xl text-gray-300">
           Migrate your favorite playlists from Spotify to Youtube
         </h1>
-        <RandBBanner />
-        <div className="mx-auto grid grid-cols-2 justify-between gap-10 md:w-[85%x] md:max-w-[850px] md:grid-cols-4">
+        <div className="mx-auto w-[95%] md:w-[85%x] md:max-w-[850px]">
+          <RandBBanner />
+        </div>
+        <div className="mx-auto grid w-[95%] grid-cols-2 justify-between gap-[5%] md:w-[85%x] md:max-w-[850px] md:grid-cols-4">
           {data ? (
             data?.playlists?.items?.map((item) => (
               <Featured

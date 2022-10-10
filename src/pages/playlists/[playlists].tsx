@@ -5,7 +5,6 @@ import useSWR from 'swr';
 import ExportButton from '../../components/export-button';
 import Song, { SongSkeleton } from '../../components/song';
 import TrackSearch from '../../components/track-search';
-
 import SongApiResponse, { SongItem } from '../../interfaces/song.js';
 import fetcher from '../../utils/fetcher';
 
@@ -25,6 +24,7 @@ const Playlists: FC<InferGetServerSidePropsType<typeof getServerSideProps>> = (
   const [tracksCount, setTracksCount] = useState(0);
 
   const [search, setSearch] = useState('');
+  const [searchResults, setSearchResults] = useState<SongItem[]>();
 
   useEffect(() => {
     if (data) {
@@ -66,9 +66,9 @@ const Playlists: FC<InferGetServerSidePropsType<typeof getServerSideProps>> = (
   };
 
   useMemo(() => {
-    if (search === '' || search === ' ') setTracks(data?.items);
+    if (search === '' || search === ' ') setSearchResults(tracks);
     else {
-      const filteredValues = data?.items?.filter((track) => {
+      const filteredValues = tracks?.filter((track) => {
         if (
           track?.track?.name
             .trim()
@@ -98,9 +98,9 @@ const Playlists: FC<InferGetServerSidePropsType<typeof getServerSideProps>> = (
           return true;
       });
 
-      setTracks(filteredValues);
+      setSearchResults(filteredValues);
     }
-  }, [search, data?.items]);
+  }, [search, tracks]);
 
   return (
     <>
@@ -113,8 +113,8 @@ const Playlists: FC<InferGetServerSidePropsType<typeof getServerSideProps>> = (
         <TrackSearch search={search} setSearch={setSearch} />
       </div>
       <div className="mx-auto mt-10 md:w-2/3 md:max-w-[760px]">
-        {tracks !== undefined ? (
-          tracks?.map((song) => (
+        {searchResults !== undefined ? (
+          searchResults?.map((song) => (
             <Song key={song.track.id} info={song} toggleTrack={toggleTrack} />
           ))
         ) : (

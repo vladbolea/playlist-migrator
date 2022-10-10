@@ -5,7 +5,7 @@ import HeartIcon from '../static/icons/heart.svg';
 
 const RandBBanner: FC = () => {
   return (
-    <div className="relative mx-auto flex h-72 w-[90vw] items-center justify-between overflow-hidden rounded-3xl bg-[#E86239] md:h-[500px] md:w-[85%x] md:max-w-[850px] md:rounded-[35px]">
+    <div className="relative mx-auto flex h-72 w-full items-center justify-between overflow-hidden rounded-3xl bg-[#E86239] md:h-[500px]  md:rounded-[35px]">
       <div className="z-10 m-5 w-full md:ml-20 md:w-[400px]">
         <div className="md:mt-18 mt-5">
           <p className="text-sm font-semibold text-white">CURATED PLAYLIST</p>

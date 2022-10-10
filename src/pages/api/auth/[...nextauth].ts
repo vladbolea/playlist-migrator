@@ -25,7 +25,7 @@ const refreshAccessToken = async (token: JWT) => {
 };
 
 const saveUserProfile = async (token: string) => {
-  await fetch('http://localhost:3000/api/spotify/currentUser', {
+  await fetch(`${env.NEXT_PUBLIC_BASE_URL}/api/spotify/currentUser`, {
     method: 'GET',
     headers: {
       method: 'GET',

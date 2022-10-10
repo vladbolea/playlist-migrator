@@ -30,16 +30,16 @@ const Song = ({
             objectFit="cover"
           />
         </div>
-        <div className="absolute left-[60px] ml-10">
-          <h2 className="max-w-[240px] overflow-hidden text-ellipsis whitespace-nowrap font-semibold text-white">
+        <div className="absolute left-[50px] ml-10 max-w-[35%] md:left-[60px]">
+          <h2 className="w-full overflow-hidden text-ellipsis whitespace-nowrap font-semibold text-white">
             {info?.track.name}
           </h2>
           <h3 className="text-sm text-gray-400">
             {info?.track.artists[0].name}
           </h3>
         </div>
-        <div className="">
-          <h3 className="relative right-[-100px] max-w-[220px] overflow-hidden text-ellipsis whitespace-nowrap text-right text-sm text-gray-400">
+        <div className="relative right-[-60px] w-[25%] text-left md:right-[-80px]">
+          <h3 className=" w-full overflow-hidden text-ellipsis whitespace-nowrap text-left text-sm text-gray-400">
             {info?.track?.album?.name}
           </h3>
         </div>

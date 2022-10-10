@@ -1,9 +1,23 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import PlaylistApiResponse from '../../../interfaces/playlist';
+import { getServerAuthSession } from '../../../server/common/get-server-auth-session';
 
 const playlists = async (req: NextApiRequest, res: NextApiResponse) => {
   const { method } = req;
   const { authorization } = req.headers;
+
+  const session = await getServerAuthSession({ req, res });
+
+  const user = await prisma?.user.findUnique({
+    where: {
+      email: session?.user?.email as string,
+    },
+    include: {
+      spotifyProfile: true,
+    },
+  });
+
+  const country = user?.spotifyProfile?.country;
 
   switch (method) {
     case 'GET':
@@ -24,7 +38,7 @@ const playlists = async (req: NextApiRequest, res: NextApiResponse) => {
         };
 
         const response = await fetchPlaylists(
-          'https://api.spotify.com/v1/browse/featured-playlists'
+          `https://api.spotify.com/v1/browse/featured-playlists?country=${country}`
         );
 
         if (response.next) {

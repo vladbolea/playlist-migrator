@@ -6,7 +6,7 @@ import GoogleProvider from 'next-auth/providers/google';
 
 import { env } from '../../../env/server.mjs';
 import spotifyApi from '../../../utils/spotify';
-import prisma from '../prisma/prisma-client';
+import { prisma } from '../../../server/db/client';
 
 const refreshAccessToken = async (token: JWT) => {
   try {
@@ -24,13 +24,49 @@ const refreshAccessToken = async (token: JWT) => {
   }
 };
 
+const saveUserProfile = async (token: string) => {
+  await fetch('http://localhost:3000/api/spotify/currentUser', {
+    method: 'GET',
+    headers: {
+      method: 'GET',
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+const scopes = [
+  'playlist-read-private',
+  'user-read-private',
+  'user-read-email',
+  // 'user-read-playback-position',
+  // 'playlist-modify-public',
+  // 'playlist-modify-private',
+  // 'playlist-read-public',
+  // 'playlist-read-private',
+  // 'user-library-read',
+  // 'user-library-modify',
+  // 'user-top-read',
+  // 'playlist-read-collaborative',
+  // 'ugc-image-upload',
+  // 'user-follow-read',
+  // 'user-follow-modify',
+  // 'user-read-playback-state',
+  // 'user-modify-playback-state',
+  // 'user-read-currently-playing',
+  // 'user-read-recently-played',
+].join('%20');
+
+//build query params from scopes array of strings
+// const params = new URLSearchParams({ scope: scopes }).toString();
+
 export const authOptions: NextAuthOptions = {
   providers: [
     SpotifyProvider({
       clientId: env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID,
       clientSecret: env.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET,
-      authorization:
-        'https://accounts.spotify.com/authorize?scope=playlist-read-private',
+      authorization: `https://accounts.spotify.com/authorize?scope=${scopes}`,
     }),
 
     // GoogleProvider({
@@ -44,6 +80,8 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, account, user }): Promise<JWT> {
       if (account && user) {
+        await saveUserProfile(account.access_token as string);
+
         token.accessToken = account?.access_token;
         token.refreshToken = account?.refresh_token;
         token.username = account?.providerAccountId;

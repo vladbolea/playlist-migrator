@@ -17,8 +17,8 @@ const Featured: FC<FeaturedProps> = (props) => {
         <div className="relative mt-8 aspect-square w-5/6 min-w-[10rem] max-w-[14rem] overflow-hidden rounded-2xl text-white hover:cursor-pointer md:w-5/6 md:min-w-[11.5rem] md:transition-all md:hover:scale-95 md:hover:rounded-[40px]">
           <Image
             className="md:transition-all md:hover:scale-125"
-            src={props.image.url}
-            alt={props.name}
+            src={props?.image?.url}
+            alt={props?.name}
             layout={'fill'}
             objectFit={'contain'}
           />

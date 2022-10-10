@@ -30,7 +30,6 @@ const Profile: FC = () => {
               width={30}
               height={30}
               alt="Loader"
-              placeholder="blur"
             />
           ) : (
             'Sign out'

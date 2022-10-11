@@ -1,3 +1,4 @@
+import { AnimatePresence, motion } from 'framer-motion';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import { useSession } from 'next-auth/react';
 import { FC, useEffect, useMemo, useState } from 'react';
@@ -25,6 +26,8 @@ const Playlists: FC<InferGetServerSidePropsType<typeof getServerSideProps>> = (
 
   const [search, setSearch] = useState('');
   const [searchResults, setSearchResults] = useState<SongItem[]>();
+
+  const [searchFocus, setSearchFocus] = useState(false);
 
   useEffect(() => {
     if (data) {
@@ -110,7 +113,11 @@ const Playlists: FC<InferGetServerSidePropsType<typeof getServerSideProps>> = (
         </h1>
       </div>
       <div className="mx-auto mb-10 w-[95%] md:w-8/12">
-        <TrackSearch search={search} setSearch={setSearch} />
+        <TrackSearch
+          search={search}
+          setSearch={setSearch}
+          setSearchFocus={setSearchFocus}
+        />
       </div>
       <div className="mx-auto mt-10 md:w-2/3 md:max-w-[760px]">
         {searchResults !== undefined ? (
@@ -121,7 +128,11 @@ const Playlists: FC<InferGetServerSidePropsType<typeof getServerSideProps>> = (
           <SongSkeleton />
         )}
       </div>
-      <ExportButton tracksCount={tracksCount} handleExport={handleExport} />
+      <ExportButton
+        tracksCount={tracksCount}
+        handleExport={handleExport}
+        searchFocus={searchFocus}
+      />
     </>
   );
 };

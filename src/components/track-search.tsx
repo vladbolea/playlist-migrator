@@ -12,13 +12,13 @@ const TrackSearch = ({
   return (
     <>
       <input
-        onBlur={(e) => {
+        className="focus:border-bg-[#343434] mx-auto h-14 w-full rounded-[56px] bg-[#242424] indent-10 text-gray-100 outline-none hover:bg-[#343434] focus:border focus:bg-[#343434]"
+        onBlur={() => {
           setSearchFocus(false);
         }}
-        onFocus={(e) => {
+        onFocus={() => {
           setSearchFocus(true);
         }}
-        className="focus:border-bg-[#343434] h-14 w-full rounded-[56px] bg-[#242424] indent-10 text-gray-100 outline-none hover:bg-[#343434] focus:border focus:bg-[#343434]"
         name="Tracks"
         type="text"
         onChange={(e) => setSearch(e.target.value)}

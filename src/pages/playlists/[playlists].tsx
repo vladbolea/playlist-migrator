@@ -1,4 +1,3 @@
-import { AnimatePresence, motion } from 'framer-motion';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import { useSession } from 'next-auth/react';
 import { FC, useEffect, useMemo, useState } from 'react';
@@ -112,7 +111,7 @@ const Playlists: FC<InferGetServerSidePropsType<typeof getServerSideProps>> = (
           Select the tracks you want to import into your youtube account
         </h1>
       </div>
-      <div className="mx-auto mb-10 w-[95%] md:w-8/12">
+      <div className="mx-auto mb-10 w-[95%] md:w-8/12 md:min-w-[600px]">
         <TrackSearch
           search={search}
           setSearch={setSearch}

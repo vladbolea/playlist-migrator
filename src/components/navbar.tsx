@@ -1,7 +1,7 @@
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 
 import Loader from '../static/icons/loader.svg';
 
@@ -27,6 +27,11 @@ export const Navbar: FC = () => {
         <div className="">
           <p className="text-gray-400">Playlist Migrator</p>
         </div>
+        <Link href="/playlists/me/spotify">
+          <p className="text-gray-400 transition-all hover:cursor-pointer hover:text-white">
+            Your Playlists
+          </p>
+        </Link>
         <div className="">
           {status === 'loading' ? (
             <div className="grid w-[86.94px] place-content-center">

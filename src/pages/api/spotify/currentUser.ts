@@ -75,6 +75,8 @@ const getCurrentUser = async (req: NextApiRequest, res: NextApiResponse) => {
                 },
               },
             },
+          }).then((data) => {
+            console.log("merge", data)
           })
           .catch((err) => console.log('err ~> ', err));
 

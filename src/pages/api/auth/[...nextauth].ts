@@ -14,7 +14,6 @@ const refreshAccessToken = async (token: JWT) => {
     spotifyApi.setRefreshToken(token.refreshToken as string);
 
     const { body } = await spotifyApi.refreshAccessToken();
-
     token.accessToken = body.access_token;
     token.refreshToken = body.refresh_token ?? (token.refreshToken as string);
     token.accessTokenExpires = body.expires_in * 1000;
@@ -34,6 +33,9 @@ const saveUserProfile = async (token: string) => {
       Authorization: `Bearer ${token}`,
     },
   });
+
+  console.log('Method')    
+
 };
 
 const scopes = [

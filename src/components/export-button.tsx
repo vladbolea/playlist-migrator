@@ -1,18 +1,27 @@
 import { motion } from 'framer-motion';
-import { FC, useState } from 'react';
+import { FC, useEffect } from 'react';
+import useWindowDimensions from '../utils/useDimentions';
 
 const ExportButton: FC<{
   searchFocus: boolean;
   tracksCount: number;
   handleExport: () => void;
 }> = ({ tracksCount, handleExport, searchFocus }) => {
+  const { width } = useWindowDimensions();
+
+  useEffect(() => {
+    console.log(width);
+  }, [width]);
+
   return (
     <motion.button
       layout
-      animate={{ opacity: searchFocus ? 0 : 1, y: searchFocus ? 100 : 0 }}
+      animate={{
+        opacity: searchFocus && width < 768 ? 0 : 1,
+        y: searchFocus && width < 768 ? 100 : 0,
+      }}
       transition={{
         ease: 'easeInOut',
-        // layout: { duration: 0.2 },
         duration: 0.2,
       }}
       onClick={handleExport}

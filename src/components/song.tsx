@@ -19,7 +19,7 @@ const Song = ({
           opacity: info?.removed === true ? 0.3 : 1,
           transition: 'opacity 0.1s ease-in-out',
         }}
-        className="relative mx-auto mt-5 flex h-20 w-[95%] items-center justify-between overflow-hidden rounded-lg bg-[#1c1c1c] hover:bg-[#2a2a2a] md:w-full md:min-w-[600px] "
+        className="relative mx-auto mt-5 flex h-20 w-[95%] items-center justify-between overflow-hidden rounded-lg bg-[#1c1c1c] hover:bg-[#2a2a2a] md:w-full  "
       >
         <div className="relative aspect-square h-20">
           <Image

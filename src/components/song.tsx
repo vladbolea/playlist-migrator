@@ -5,6 +5,8 @@ import { SongItem } from '../interfaces/song';
 import DenyIcon from '../static/icons/deny.svg';
 import AddIcon from '../static/icons/add.svg';
 
+import LoaderIcon from '../static/icons/loader.svg';
+
 const Song = ({
   info,
   toggleTrack,
@@ -53,10 +55,11 @@ const Song = ({
           <Image
             src={info?.removed ? AddIcon : DenyIcon}
             alt="Remove song"
-            loading="eager"
+            // loading="eager"
             layout="fill"
             draggable={false}
             objectFit="cover"
+            loader={({ src }) => src}
           />
         </div>
       </div>

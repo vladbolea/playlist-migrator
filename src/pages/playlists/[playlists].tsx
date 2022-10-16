@@ -4,7 +4,7 @@ import { FC, useEffect, useMemo, useState } from 'react';
 import useSWR from 'swr';
 import ExportButton from '../../components/export-button';
 import Song, { SongSkeleton } from '../../components/song';
-import TrackSearch from '../../components/track-search';
+import SearchBar from '../../components/search-bar';
 import SongApiResponse, { SongItem } from '../../interfaces/song.js';
 import fetcher from '../../utils/fetcher';
 
@@ -111,8 +111,9 @@ const Playlists: FC<InferGetServerSidePropsType<typeof getServerSideProps>> = (
           Select the tracks you want to import into your youtube account
         </h1>
       </div>
-      <div className="mx-auto mb-10 w-[95%] md:w-8/12 md:min-w-[600px]">
-        <TrackSearch
+      <div className="mx-auto mb-10 w-[90%] md:w-[70%] md:min-w-[600px]">
+        <SearchBar
+          placeholder="Search for tracks, albums or artists"
           search={search}
           setSearch={setSearch}
           setSearchFocus={setSearchFocus}

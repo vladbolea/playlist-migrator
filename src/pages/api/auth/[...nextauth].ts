@@ -33,9 +33,6 @@ const saveUserProfile = async (token: string) => {
       Authorization: `Bearer ${token}`,
     },
   });
-
-  console.log('Method')    
-
 };
 
 const scopes = [
@@ -71,10 +68,17 @@ export const authOptions: NextAuthOptions = {
       authorization: `https://accounts.spotify.com/authorize?scope=${scopes}`,
     }),
 
-    // GoogleProvider({
-    //   clientId: env.GOOGLE_CLIENT_ID,
-    //   clientSecret: env.GOOGLE_CLIENT_SECRET,
-    // }),
+    GoogleProvider({
+      clientId: env.GOOGLE_CLIENT_ID,
+      clientSecret: env.GOOGLE_CLIENT_SECRET,
+      authorization: {
+        params: {
+          prompt: 'consent',
+          access_type: 'offline',
+          response_type: 'code',
+        },
+      },
+    }),
 
     //add more providers here...
   ],
@@ -117,7 +121,10 @@ export const authOptions: NextAuthOptions = {
   session: {
     strategy: 'jwt',
   },
-  // debug: true,
+  debug: true,
+  pages: {
+    signIn: '/login',
+  },
 };
 
 export default NextAuth(authOptions);

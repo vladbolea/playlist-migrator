@@ -22,6 +22,7 @@ export default defineNextConfig({
   },
   images: {
     domains: [
+      'lh3.googleusercontent.com',
       'blend-playlist-covers.spotifycdn.com',
       'mosaic.scdn.co',
       'lineup-images.scdn.co',

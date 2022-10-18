@@ -1,24 +1,25 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import PlaylistApiResponse from '../../../interfaces/playlist';
+import { env } from '../../../env/server.mjs';
+import YoutubeSearchApiResponse from '../../../interfaces/youtube-search.js';
 import { getServerAuthSession } from '../../../server/common/get-server-auth-session';
-import { prisma } from '../../../server/db/client';
-
-import { google } from 'googleapis';
+// import googleapis from 'googleapis/youtube';
 
 const playlists = async (req: NextApiRequest, res: NextApiResponse) => {
+  const searchTerm = req.query.searchTerm as string;
+  const url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q=${searchTerm}&key=${env.GOOGLE_API_KEY}`;
+  const session = await getServerAuthSession({ req, res });
 
-  const youtube = google?.youtube_v3?.Youtube({
-    
-  })
+  if (session?.provider === 'google') {
+    const data: YoutubeSearchApiResponse = await fetch(url, {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${session.accessToken}`,
+      },
+    }).then((res) => res.json());
 
-  const url = `https://developers.google.com/apis-explorer/#p/youtube/v3/youtube.search.list?
-    part=snippet
-    &order=viewCount
-    &q=skateboarding+dog
-    &type=video
-    &videoDefinition=high`;
-
-  const data = await fetch(url, {});
+    res.status(200).json(data);
+  }
 };
 
 export default playlists;

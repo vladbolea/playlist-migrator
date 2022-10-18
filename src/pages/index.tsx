@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import useSWR from 'swr';
 import Featured, { FeaturedSkeleton } from '../components/featured';
 import RandBBanner from '../components/rb-banner';
+import { env } from '../env/client.mjs';
 import FeaturedApiResponse from '../interfaces/featured';
 import fetcher from '../utils/fetcher';
 
@@ -15,6 +16,16 @@ const HomeContainer: NextPage = () => {
     ['api/spotify/featured', session?.accessToken, 'GET'],
     fetcher
   );
+
+  useEffect(() => {
+    const test = async () => {
+      const data = await fetch(
+        `${env.NEXT_PUBLIC_BASE_URL}/api/youtube/search?searchTerm=hello`
+      );
+    };
+
+    test();
+  }, []);
 
   return (
     <div className="h-full min-h-screen w-full bg-black pb-14">

@@ -8,12 +8,7 @@ import { env } from '../../../env/server.mjs';
 import spotifyApi from '../../../utils/spotify';
 import { prisma } from '../../../server/db/client';
 
-const refreshAccessToken = async (token: {
-  provider: string;
-  accessToken: string;
-  refreshToken: string;
-  accessTokenExpires: number;
-}) => {
+const refreshAccessToken = async (token: JWT) => {
   if (token.provider === 'spotify') {
     try {
       spotifyApi.setAccessToken(token.accessToken as string);
@@ -23,7 +18,7 @@ const refreshAccessToken = async (token: {
       token.accessToken = body.access_token;
       token.refreshToken = body.refresh_token ?? (token.refreshToken as string);
       token.accessTokenExpires = body.expires_in * 1000;
-      return token;
+      return token as JWT;
     } catch (error) {
       console.error(error);
     }

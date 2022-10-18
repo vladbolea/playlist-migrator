@@ -8,18 +8,28 @@ import { env } from '../../../env/server.mjs';
 import spotifyApi from '../../../utils/spotify';
 import { prisma } from '../../../server/db/client';
 
-const refreshAccessToken = async (token: JWT) => {
-  try {
-    spotifyApi.setAccessToken(token.accessToken as string);
-    spotifyApi.setRefreshToken(token.refreshToken as string);
+const refreshAccessToken = async (token: {
+  provider: string;
+  accessToken: string;
+  refreshToken: string;
+  accessTokenExpires: number;
+}) => {
+  if (token.provider === 'spotify') {
+    try {
+      spotifyApi.setAccessToken(token.accessToken as string);
+      spotifyApi.setRefreshToken(token.refreshToken as string);
 
-    const { body } = await spotifyApi.refreshAccessToken();
-    token.accessToken = body.access_token;
-    token.refreshToken = body.refresh_token ?? (token.refreshToken as string);
-    token.accessTokenExpires = body.expires_in * 1000;
-    return token;
-  } catch (error) {
-    console.error(error);
+      const { body } = await spotifyApi.refreshAccessToken();
+      token.accessToken = body.access_token;
+      token.refreshToken = body.refresh_token ?? (token.refreshToken as string);
+      token.accessTokenExpires = body.expires_in * 1000;
+      return token;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  if (token.provider === 'google') {
+    //find how to rotate google token
   }
 };
 
@@ -85,34 +95,31 @@ export const authOptions: NextAuthOptions = {
 
   callbacks: {
     async jwt({ token, account, user }): Promise<JWT> {
+      //only run this on spotify since the app is built around it -> the google data is saved in the db
       if (account && user) {
         await saveUserProfile(account.access_token as string);
-
-        console.log(`https://accounts.spotify.com/authorize?scope=${scopes}`);
-
+        token.provider = account?.provider;
         token.accessToken = account?.access_token;
         token.refreshToken = account?.refresh_token;
         token.username = account?.providerAccountId;
         token.accessTokenExpires = account?.expires_at
           ? account?.expires_at * 1000
           : null;
-
         return token;
       }
-
-      if (Date.now() < (token.accessTokenExpires as number)) {
-        return token;
+      //spotify access token rotation
+      if (Date.now() > (token.accessTokenExpires as number)) {
+        return (await refreshAccessToken(token)) as JWT;
       }
-
-      // If access token has expired, try to update it
-      return (await refreshAccessToken(token)) as JWT;
+      return token;
     },
 
     async session({ session, token }) {
+      console.log(`session ${JSON.stringify(session)}`);
       session.accessToken = token?.accessToken;
       session.refreshToken = token?.refreshToken;
       session.username = token?.username;
-
+      session.provider = token?.provider;
       return session;
     },
   },
@@ -120,11 +127,14 @@ export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   session: {
     strategy: 'jwt',
+    maxAge: 3600,
+    updateAge: 3600,
   },
-  debug: true,
+  // debug: true,
   pages: {
     signIn: '/login',
   },
 };
 
 export default NextAuth(authOptions);
+export { refreshAccessToken };

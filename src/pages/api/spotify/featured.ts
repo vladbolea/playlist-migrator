@@ -1,13 +1,33 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { env } from '../../../env/server.mjs';
 import PlaylistApiResponse from '../../../interfaces/playlist';
+import ProviderHandlerApiReponse from '../../../interfaces/provider-handler.js';
 import { getServerAuthSession } from '../../../server/common/get-server-auth-session';
 import { prisma } from '../../../server/db/client';
 
 const playlists = async (req: NextApiRequest, res: NextApiResponse) => {
   const { method } = req;
-  const { authorization } = req.headers;
+  let authorization = req.headers?.authorization;
 
   const session = await getServerAuthSession({ req, res });
+  if (session?.provider === 'google') {
+    const providerHandler: ProviderHandlerApiReponse = await fetch(
+      `${env.NEXT_PUBLIC_BASE_URL}/api/provider/handler`,
+      {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify({
+          currentProvider: session?.provider,
+          email: session?.user?.email,
+          neededProvider: 'spotify',
+        }),
+      }
+    ).then((res) => res.json());
+
+    authorization = `Bearer ${providerHandler?.accounts[0]?.access_token}`;
+  }
 
   const user = await prisma?.user.findUnique({
     where: {

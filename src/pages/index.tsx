@@ -16,10 +16,6 @@ const HomeContainer: NextPage = () => {
     fetcher
   );
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
-
   return (
     <div className="h-full min-h-screen w-full bg-black pb-14">
       <div className="grid place-content-center md:min-w-full">

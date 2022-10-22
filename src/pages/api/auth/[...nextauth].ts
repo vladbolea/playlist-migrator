@@ -97,8 +97,6 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, account, user }): Promise<JWT> {
       //only run this on spotify since the app is built around it -> the google data is saved in the db
       if (account && user) {
-        console.log(account.access_token);
-
         await saveUserProfile(account.access_token as string);
         token.provider = account?.provider;
         token.accessToken = account?.access_token;
@@ -117,7 +115,6 @@ export const authOptions: NextAuthOptions = {
     },
 
     async session({ session, token }) {
-      console.log(`session ${JSON.stringify(session)}`);
       session.accessToken = token?.accessToken;
       session.refreshToken = token?.refreshToken;
       session.username = token?.username;
@@ -132,7 +129,7 @@ export const authOptions: NextAuthOptions = {
     maxAge: 3600,
     updateAge: 3600,
   },
-  debug: true,
+  // debug: true,
   pages: {
     signIn: '/login',
   },

@@ -17,15 +17,15 @@ const HomeContainer: NextPage = () => {
     fetcher
   );
 
-  useEffect(() => {
-    const test = async () => {
-      const data = await fetch(
-        `${env.NEXT_PUBLIC_BASE_URL}/api/youtube/search?searchTerm=hello`
-      );
-    };
+  // useEffect(() => {
+  //   const test = async () => {
+  //     const data = await fetch(
+  //       `${env.NEXT_PUBLIC_BASE_URL}/api/youtube/search?searchTerm=hello`
+  //     );
+  //   };
 
-    test();
-  }, []);
+  //   test();
+  // }, []);
 
   return (
     <div className="h-full min-h-screen w-full bg-black pb-14">
@@ -36,7 +36,7 @@ const HomeContainer: NextPage = () => {
         <div className="mx-auto w-[95%] md:w-[85%x] md:max-w-[850px]">
           <RandBBanner />
         </div>
-        <div className="mx-auto grid w-[95%] grid-cols-2 justify-between gap-[5%] md:w-[85%x] md:max-w-[850px] md:grid-cols-4">
+        <div className="mx-auto grid w-[95%] grid-cols-2 place-items-center justify-between  md:w-[85%x] md:max-w-[850px] md:grid-cols-4">
           {data
             ? data?.playlists?.items?.map((item) => (
                 <Featured

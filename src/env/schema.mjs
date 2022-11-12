@@ -10,7 +10,7 @@ export const serverSchema = z.object({
   NEXTAUTH_SECRET: z.string(),
   NEXTAUTH_URL: z.string().url(),
   SPOTIFY_REDIRECT_URL: z.string(),
-  GOOGLE_CLIENT_ID: z.string(),
+  // GOOGLE_CLIENT_ID: z.string(),
   GOOGLE_CLIENT_SECRET: z.string(),
   GOOGLE_API_KEY: z.string(),
 });
@@ -24,6 +24,7 @@ export const clientSchema = z.object({
   NEXT_PUBLIC_SPOTIFY_CLIENT_ID: z.string(),
   NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET: z.string(),
   NEXT_PUBLIC_BASE_URL: z.string(),
+  NEXT_PUBLIC_GOOGLE_CLIENT_ID: z.string(),
 });
 
 /**
@@ -37,4 +38,5 @@ export const clientEnv = {
   NEXT_PUBLIC_SPOTIFY_CLIENT_ID: process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID,
   NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET:
     process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET,
+  NEXT_PUBLIC_GOOGLE_CLIENT_ID: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
 };

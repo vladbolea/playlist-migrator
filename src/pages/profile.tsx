@@ -2,8 +2,9 @@ import { FC, useEffect, useState } from 'react';
 import { signOut } from 'next-auth/react';
 import Image from 'next/image';
 import Loader from '../static/icons/loader.svg';
-import GoogleLogin from 'react-google-login';
 import { env } from '../env/client.mjs';
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import { GoogleLogin } from '@react-oauth/google';
 
 const Profile: FC = () => {
   const [loading, setLoading] = useState(false);
@@ -19,22 +20,21 @@ const Profile: FC = () => {
     <div className="grid h-full min-h-screen w-full place-content-center bg-black">
       <div>
         <p>Profile</p>
-
         {/* <button className="my-5 grid h-11 w-[260px] place-content-center rounded-md bg-red-500 px-5 py-2 font-bold transition-all hover:bg-red-400"> */}
         {/* Connect with YouTube */}
-        <GoogleLogin
-          clientId={env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}
-          buttonText="Link YoutTube Account"
-          onFailure={() => console.log('failed')}
-          onSuccess={() => console.log('success')}
-          cookiePolicy={'single_host_origin'}
-          uxMode="popup"
-          scope="https://www.googleapis.com/auth/youtube"
-          autoLoad={true}
-          redirectUri={env.NEXT_PUBLIC_BASE_URL}
-          responseType="token"
-        />
-        {/* </button> */}
+        <GoogleOAuthProvider clientId={env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>
+          <GoogleLogin
+            onSuccess={(credentialResponse) => {
+              console.log('Success', credentialResponse);
+            }}
+            onError={() => {
+              console.log('Login Failed');
+            }}
+            auto_select={true}
+            // hosted_domain={env.NEXT_PUBLIC_BASE_URL}
+          />
+        </GoogleOAuthProvider>
+        ;{/* </button> */}
         <button
           onClick={() => {
             setLoading(true);

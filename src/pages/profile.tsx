@@ -3,8 +3,6 @@ import { signOut } from 'next-auth/react';
 import Image from 'next/image';
 import Loader from '../static/icons/loader.svg';
 import { env } from '../env/client.mjs';
-import { GoogleOAuthProvider } from '@react-oauth/google';
-import { GoogleLogin } from '@react-oauth/google';
 
 const Profile: FC = () => {
   const [loading, setLoading] = useState(false);

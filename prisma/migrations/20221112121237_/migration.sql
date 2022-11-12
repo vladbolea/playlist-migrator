@@ -1,11 +1,4 @@
 -- CreateTable
-CREATE TABLE "Example" (
-    "id" TEXT NOT NULL,
-
-    CONSTRAINT "Example_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
 CREATE TABLE "Account" (
     "id" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
@@ -51,6 +44,43 @@ CREATE TABLE "VerificationToken" (
     "expires" TIMESTAMP(3) NOT NULL
 );
 
+-- CreateTable
+CREATE TABLE "SpotifyProfile" (
+    "id" TEXT NOT NULL,
+    "user_id" TEXT NOT NULL,
+    "display_name" TEXT,
+    "external_urls" TEXT,
+    "href" TEXT,
+    "images" TEXT,
+    "product" TEXT,
+    "type" TEXT,
+    "uri" TEXT,
+    "country" TEXT,
+    "email" TEXT,
+    "followers" INTEGER,
+
+    CONSTRAINT "SpotifyProfile_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Exports" (
+    "id" TEXT NOT NULL,
+    "user_id" TEXT NOT NULL,
+    "export_date" TIMESTAMP(3) NOT NULL,
+    "export_data" TEXT NOT NULL,
+    "successful" BOOLEAN NOT NULL,
+    "exportTo" TEXT NOT NULL,
+
+    CONSTRAINT "Exports_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Example" (
+    "id" TEXT NOT NULL,
+
+    CONSTRAINT "Example_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "Account_provider_providerAccountId_key" ON "Account"("provider", "providerAccountId");
 
@@ -66,8 +96,17 @@ CREATE UNIQUE INDEX "VerificationToken_token_key" ON "VerificationToken"("token"
 -- CreateIndex
 CREATE UNIQUE INDEX "VerificationToken_identifier_token_key" ON "VerificationToken"("identifier", "token");
 
+-- CreateIndex
+CREATE UNIQUE INDEX "SpotifyProfile_user_id_key" ON "SpotifyProfile"("user_id");
+
 -- AddForeignKey
 ALTER TABLE "Account" ADD CONSTRAINT "Account_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Session" ADD CONSTRAINT "Session_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "SpotifyProfile" ADD CONSTRAINT "SpotifyProfile_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Exports" ADD CONSTRAINT "Exports_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;

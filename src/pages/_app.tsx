@@ -10,6 +10,8 @@ import type { Session } from 'next-auth';
 import '../styles/globals.css';
 import { Navbar } from '../components/navbar';
 import { SWRConfig } from 'swr';
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import { env } from '../env/client.mjs';
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -21,8 +23,13 @@ const MyApp: AppType<{ session: Session | null }> = ({
       refetchOnWindowFocus={false}
       refetchInterval={3600}
     >
-      <Navbar />
-      <Component {...pageProps} />
+      <GoogleOAuthProvider
+        key={'googleAuthProvider'}
+        clientId={env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}
+      >
+        <Navbar />
+        <Component {...pageProps} />
+      </GoogleOAuthProvider>
     </SessionProvider>
   );
 };

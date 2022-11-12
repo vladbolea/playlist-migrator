@@ -32,6 +32,7 @@ const Profile: FC = () => {
           scope="https://www.googleapis.com/auth/youtube"
           autoLoad={true}
           redirectUri={env.NEXT_PUBLIC_BASE_URL}
+          responseType="token"
         />
         {/* </button> */}
         <button

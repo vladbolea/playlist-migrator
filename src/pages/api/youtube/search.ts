@@ -44,6 +44,7 @@ const search = async (req: NextApiRequest, res: NextApiResponse) => {
         }
       }
       const bestResult = officialSong || noRemixes[0];
+      console.log(JSON.stringify(bestResult));
 
       res.status(200).json({ track: bestResult });
     }

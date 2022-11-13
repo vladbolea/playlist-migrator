@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from 'react';
-import { signOut, useSession } from 'next-auth/react';
+import { signOut } from 'next-auth/react';
 import Image from 'next/image';
 import Loader from '../static/icons/loader.svg';
 import { env } from '../env/client.mjs';

@@ -70,15 +70,21 @@ model SpotifyProfile {
 }
 
 model Exports {
-  id          String   @id @default(cuid())
-  user_id     String
-  export_date DateTime
-  export_data String
-  successful  Boolean
-  exportTo    String
-  user        User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  id            String         @id @default(cuid())
+  playlist_id   String
+  user_id       String
+  export_date   DateTime
+  successful    Boolean
+  exportTo      String
+  user          User           @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  exportedItems ExportedItem[]
 }
 
-model Example {
-  id String @id
+model ExportedItem {
+  id        String  @id @default(cuid())
+  export_id String
+  title     String
+  channel   String
+  link      String
+  export    Exports @relation(fields: [export_id], references: [id], onDelete: Cascade)
 }

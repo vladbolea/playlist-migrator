@@ -7,34 +7,49 @@ export default interface YoutubeSearchApiResponse {
   items: YoutubeSearchItem[];
 }
 
+export interface Id {
+  kind: string;
+  videoId: string;
+}
+
+export interface Default {
+  url: string;
+  width: number;
+  height: number;
+}
+
+export interface Medium {
+  url: string;
+  width: number;
+  height: number;
+}
+
+export interface High {
+  url: string;
+  width: number;
+  height: number;
+}
+
+export interface Thumbnails {
+  default: Default;
+  medium: Medium;
+  high: High;
+}
+
+export interface Snippet {
+  publishedAt: Date;
+  channelId: string;
+  title: string;
+  description: string;
+  thumbnails: Thumbnails;
+  channelTitle: string;
+  liveBroadcastContent: string;
+  publishTime: Date;
+}
+
 export interface YoutubeSearchItem {
-  kind: 'youtube#searchResult';
+  kind: string;
   etag: string;
-  id: { kind: 'youtube#video'; videoId: string };
-  snippet: {
-    publishedAt: Date;
-    channelId: string;
-    title: string;
-    description: string;
-    thumbnails: {
-      default: {
-        url: string;
-        width: 120;
-        height: 90;
-      };
-      medium: {
-        url: string;
-        width: 320;
-        height: 180;
-      };
-      high: {
-        url: string;
-        width: 480;
-        height: 360;
-      };
-    };
-    channelTitle: string;
-    liveBroadcastContent: string;
-    publishTime: Date;
-  };
+  id: Id;
+  snippet: Snippet;
 }

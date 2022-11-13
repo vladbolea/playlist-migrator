@@ -5,7 +5,7 @@ import YoutubeSearchApiResponse, {
 } from '../../../interfaces/youtube-search.js';
 // import googleapis from 'googleapis/youtube';
 
-const playlists = async (req: NextApiRequest, res: NextApiResponse) => {
+const search = async (req: NextApiRequest, res: NextApiResponse) => {
   const searchTerm = req.query.searchTerm as string;
   const url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q=${searchTerm}&key=${env.GOOGLE_API_KEY}`;
   const googleAccessToken = req.body.googleAccessToken;
@@ -21,10 +21,7 @@ const playlists = async (req: NextApiRequest, res: NextApiResponse) => {
       })
         .then((res) => res.json())
         .catch((error) => console.log(error));
-      console.log(`aici coaie ${JSON.stringify(searchResponse)}`);
       const searchResults = searchResponse.items;
-
-      console.log(`searchResults.length ${searchResults.length}`);
 
       //Filter out the song's remixes
       const noRemixes: YoutubeSearchItem[] = [];
@@ -47,24 +44,14 @@ const playlists = async (req: NextApiRequest, res: NextApiResponse) => {
         }
       }
 
-      // searchResults.forEach((item) => {
-      //   const trackName = item.snippet.title.toLocaleLowerCase();
-      //   if (!officialSong) {
-      //     if (trackName.includes('remix')) noRemixes.push(item);
-      //     if (trackName.includes('official')) officialSong = item;
-      //   }
-      // });
-
-      console.log(`officialSong ${JSON.stringify(officialSong)}`);
-      console.log(`noRemixes[0] ${noRemixes[0]}`);
-
       const bestResult = officialSong || noRemixes[0];
+      console.log(JSON.stringify(bestResult));
 
-      res.status(200).json(bestResult);
+      res.status(200).json({ track: bestResult });
     }
   } catch (error) {
     res.status(404).json({ error });
   }
 };
 
-export default playlists;
+export default search;

@@ -82,6 +82,7 @@ const Playlists: FC<InferGetServerSidePropsType<typeof getServerSideProps>> = (
           body: JSON.stringify({
             tracks: tracksExported,
             googleAccessToken: googleAccessToken,
+            playlistId: props.playlistId,
           }),
         }
       ).then((res) => res.json());

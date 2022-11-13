@@ -9,6 +9,7 @@ import SongApiResponse, { SongItem } from '../../interfaces/song.js';
 import fetcher from '../../utils/fetcher';
 import { env } from '../../env/client.mjs';
 import { useRouter } from 'next/router';
+import jwtDecode from 'jwt-decode';
 
 const Playlists: FC<InferGetServerSidePropsType<typeof getServerSideProps>> = (
   props
@@ -66,10 +67,14 @@ const Playlists: FC<InferGetServerSidePropsType<typeof getServerSideProps>> = (
       (track) => `${track?.track?.name} ${track?.track?.artists[0].name}`
     );
 
-    console.log(tracksExported);
-
     const googleAccessToken = localStorage.getItem('google_access_token');
-    console.log(googleAccessToken);
+    const googleExpiresIn = Number(localStorage.getItem('google_expires_at'));
+
+    const isTokenValid = googleExpiresIn > Date.now();
+
+    if (!isTokenValid) {
+      router.push('/profile');
+    }
 
     if (googleAccessToken) {
       const response = await fetch(

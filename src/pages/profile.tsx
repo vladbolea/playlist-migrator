@@ -1,39 +1,29 @@
 import { FC, useEffect, useState } from 'react';
-import { signOut, useSession } from 'next-auth/react';
+import { signOut } from 'next-auth/react';
 import Image from 'next/image';
 import Loader from '../static/icons/loader.svg';
 import { env } from '../env/client.mjs';
-import {
-  CredentialResponse,
-  GoogleOAuthProvider,
-  useGoogleLogin,
-} from '@react-oauth/google';
-import { GoogleLogin, googleLogout } from '@react-oauth/google';
+import { TokenResponse, useGoogleLogin } from '@react-oauth/google';
+import { googleLogout } from '@react-oauth/google';
 
 const Profile: FC = () => {
   const [loading, setLoading] = useState(false);
   const [googleAccessToken, setGoogleAccessToken] = useState<string>();
 
-  /* onSuccess={(credentialResponse) =>
-onLoginSuccess(credentialResponse)
-}
-// auto_select={true}
-allowed_parent_origin={env.NEXT_PUBLIC_BASE_URL}
-useOneTap={true}
-login_uri={env.NEXT_PUBLIC_BASE_URL + '/profile'}
-locale={'en'}
-theme={'filled_black'}
-
-*/
-
-  const onLoginSuccess = async (credentials: any) => {
-    console.log('credentials', credentials);
-
+  const onLoginSuccess = async (
+    credentials: Omit<
+      TokenResponse,
+      'error' | 'error_description' | 'error_uri'
+    >
+  ) => {
     localStorage.setItem(
       'google_access_token',
       credentials.access_token as string
     );
     setGoogleAccessToken(credentials.access_token as string);
+
+    //add the token to expire after 1 hour from now
+    localStorage.setItem('google_expires_at', String(Date.now() + 3600000));
     const data = await fetch(`${env.NEXT_PUBLIC_BASE_URL}/api/youtube/search`, {
       method: 'POST',
       headers: {
@@ -56,6 +46,8 @@ theme={'filled_black'}
   const handleSignOut = async () => {
     googleLogout();
     localStorage.removeItem('google_access_token');
+    localStorage.removeItem('google_expires_at');
+
     setGoogleAccessToken(undefined);
   };
 
@@ -89,7 +81,7 @@ theme={'filled_black'}
           ) : (
             <button
               onClick={handleSignOut}
-              className="my-5 grid h-11 w-[260px] place-content-center rounded-md bg-red-500 px-5 py-2 font-bold transition-all hover:bg-red-400"
+              className="my-5 grid h-11 w-[360px] place-content-center rounded-md bg-red-500 px-5 py-2 font-bold transition-all hover:bg-red-400"
             >
               Logout from the Google Account
             </button>

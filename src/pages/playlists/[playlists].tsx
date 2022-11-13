@@ -7,10 +7,15 @@ import Song, { SongSkeleton } from '../../components/song';
 import SearchBar from '../../components/search-bar';
 import SongApiResponse, { SongItem } from '../../interfaces/song.js';
 import fetcher from '../../utils/fetcher';
+import { env } from '../../env/client.mjs';
+import { useRouter } from 'next/router';
+import jwtDecode from 'jwt-decode';
 
 const Playlists: FC<InferGetServerSidePropsType<typeof getServerSideProps>> = (
   props
 ) => {
+  const router = useRouter();
+
   const { data: session } = useSession();
   const { data } = useSWR<SongApiResponse>(
     [
@@ -55,16 +60,42 @@ const Playlists: FC<InferGetServerSidePropsType<typeof getServerSideProps>> = (
     }
   }, [tracks]);
 
-  const handleExport = () => {
+  const handleExport = async () => {
     const filteredTracks = tracks?.filter((track) => track?.removed !== true);
 
-    const tracksExported = filteredTracks?.map((track) => {
-      return {
-        name: track?.track?.name,
-        artist: track?.track?.artists[0].name,
-      };
-    });
-    console.log(tracksExported);
+    const tracksExported = filteredTracks?.map(
+      (track) => `${track?.track?.name} ${track?.track?.artists[0].name}`
+    );
+
+    const googleAccessToken = localStorage.getItem('google_access_token');
+    const googleExpiresIn = Number(localStorage.getItem('google_expires_at'));
+
+    const isTokenValid = googleExpiresIn > Date.now();
+
+    if (!isTokenValid) {
+      router.push('/profile');
+    }
+
+    if (googleAccessToken) {
+      const response = await fetch(
+        `${env.NEXT_PUBLIC_BASE_URL}/api/spotify/export`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            tracks: tracksExported,
+            googleAccessToken: googleAccessToken,
+            playlistId: props.playlistId,
+          }),
+        }
+      ).then((res) => res.json());
+
+      console.log(response);
+    } else {
+      router.push('/profile');
+    }
   };
 
   useMemo(() => {

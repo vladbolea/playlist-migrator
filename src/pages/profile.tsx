@@ -1,14 +1,10 @@
 import { FC, useEffect, useState } from 'react';
-import { signOut, useSession } from 'next-auth/react';
+import { signOut } from 'next-auth/react';
 import Image from 'next/image';
 import Loader from '../static/icons/loader.svg';
 import { env } from '../env/client.mjs';
-import {
-  CredentialResponse,
-  GoogleOAuthProvider,
-  useGoogleLogin,
-} from '@react-oauth/google';
-import { GoogleLogin, googleLogout } from '@react-oauth/google';
+import { TokenResponse, useGoogleLogin } from '@react-oauth/google';
+import { googleLogout } from '@react-oauth/google';
 
 const Profile: FC = () => {
   const [loading, setLoading] = useState(false);

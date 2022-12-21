@@ -17,6 +17,7 @@
     "@trpc/next": "^9.27.4",
     "@trpc/react": "^9.27.4",
     "@trpc/server": "^9.27.4",
+    "formidable": "^2.1.1",
     "framer-motion": "^7.5.3",
     "googleapis": "^108.0.0",
     "jwt-decode": "^3.1.2",

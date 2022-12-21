@@ -35,6 +35,7 @@ export default defineNextConfig({
       'daily-mix.scdn.co',
       'mixed-media-images.spotifycdn.com',
       'seeded-session-images.scdn.co',
+      'wrapped-images.spotifycdn.com',
     ],
   },
 });

@@ -6,7 +6,7 @@ import { FC, useEffect, useState } from 'react';
 
 import Loader from '../static/icons/loader.svg';
 
-export const Navbar: FC = () => {
+export const Navbar: FC<{ text?: string }> = ({ text }) => {
   const { data: session, status } = useSession();
   const [open, setOpen] = useState(false);
 
@@ -21,6 +21,7 @@ export const Navbar: FC = () => {
   return (
     <>
       <div className="sticky top-0 z-50 flex h-20 w-full items-center justify-between bg-[#000000b6] backdrop-blur-xl md:justify-around">
+        {text}
         <div className="ml-5 hover:cursor-pointer md:ml-0">
           <Link href={'/'}>
             <p className="text-xl text-white">

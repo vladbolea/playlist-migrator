@@ -27,6 +27,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
         key={'googleAuthProvider'}
         clientId={env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}
       >
+       
         <Navbar />
         <Component {...pageProps} />
       </GoogleOAuthProvider>
